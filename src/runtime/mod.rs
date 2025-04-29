@@ -277,7 +277,8 @@ mod tests {
     fn test_canonicalize_rootfs() {
         let rootfs_name = "rootfs";
         let bundle = tempfile::tempdir().expect("failed to create tmp test bundle dir");
-        let rootfs_absolute_path = bundle.path().join(rootfs_name);
+        let bundle = fs::canonicalize(bundle.path()).expect("failed to canonicalize bundle");
+        let rootfs_absolute_path = bundle.join(rootfs_name);
         assert!(
             rootfs_absolute_path.is_absolute(),
             "rootfs path is not absolute path"
@@ -295,7 +296,7 @@ mod tests {
                 .build()
                 .unwrap();
 
-            spec.canonicalize_rootfs(bundle.path())
+            spec.canonicalize_rootfs(&bundle)
                 .expect("failed to canonicalize rootfs");
 
             assert_eq!(
@@ -310,7 +311,7 @@ mod tests {
                 .build()
                 .unwrap();
 
-            spec.canonicalize_rootfs(bundle.path())
+            spec.canonicalize_rootfs(&bundle)
                 .expect("failed to canonicalize rootfs");
 
             assert_eq!(
