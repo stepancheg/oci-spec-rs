@@ -232,7 +232,7 @@ impl TryFrom<&str> for Reference {
         if s.is_empty() {
             return Err(ParseError::NameEmpty);
         }
-        let captures = match reference_regexp().captures(&s) {
+        let captures = match reference_regexp().captures(s) {
             Some(caps) => caps,
             None => {
                 return Err(ParseError::ReferenceInvalidFormat);
